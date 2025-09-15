@@ -1,0 +1,13 @@
+# Force all text files to use LF line endings
+* text=auto eol=lf
+
+# Treat JavaScript and TypeScript files as text
+*.js text
+*.ts text
+
+# Keep images as binary
+*.png binary
+*.jpg binary
+*.gif binary
+
+
