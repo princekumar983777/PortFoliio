@@ -1,22 +1,21 @@
-import Navbar from "@/app/components/Navbar";
+import Layout from "@/app/components/Layout";
 import HeroSection from "@/app/sections/HeroSection";
-import ProjectsSection from "@/app/sections/ProjectsSection";
-import CoursesSection from "@/app/sections/CoursesSection";
-import AIToolsSection from "@/app/sections/AIToolsSection";
-import AboutSection from "@/app/sections/AboutSection";
-import ContactSection from "@/app/sections/ContactSection";
+import ProjectsPreview from "@/app/components/ProjectsPreview";
+import CoursesPreview from "@/app/components/CoursesPreview";
+import AIToolsPreview from "@/app/components/AIToolsPreview";
+import AboutPreview from "@/app/components/AboutPreview";
+import ContactPreview from "@/app/components/ContactPreview";
 
 export default function Page() {
   return (
-    <main>
-      <Navbar />
+    <Layout showBreadcrumbs={false} showFooter={false}>
       <HeroSection />
-      <ProjectsSection />
-      <CoursesSection />
-      <AIToolsSection />
-      <AboutSection />
-      <ContactSection />
-    </main>
+      <ProjectsPreview />
+      <CoursesPreview />
+      <AIToolsPreview />
+      <AboutPreview />
+      <ContactPreview />
+    </Layout>
   );
 }
 

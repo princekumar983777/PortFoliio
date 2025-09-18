@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/app/utils/animations";
 
 type Props = {
@@ -24,19 +25,19 @@ export default function Hero({ onCTAClick }: Props) {
           Building modern web experiences with AI and code.
         </motion.p>
         <motion.div variants={fadeInUp} className="mt-8 flex items-center justify-center gap-3">
-          <a
-            href="#projects"
+          <Link
+            href="/projects"
             onClick={onCTAClick}
-            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-white font-medium shadow hover:bg-blue-700 focus:outline-none focus-visible:ring focus-visible:ring-blue-500/50"
+            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-white font-medium shadow hover:bg-blue-700 focus:outline-none focus-visible:ring focus-visible:ring-blue-500/50 transition-colors"
           >
             See My Work
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center rounded-lg px-5 py-3 font-medium border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-lg px-5 py-3 font-medium border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
             Contact Me
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
     </section>
