@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi';
 
 type CardProps = {
@@ -13,11 +14,14 @@ export function Card({ title, description, tags, link, imageUrl }: CardProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-gray-700">
       {imageUrl && (
-        <div className="h-48 bg-gray-100 dark:bg-gray-700 overflow-hidden">
-          <img 
-            src={imageUrl} 
-            alt={title} 
-            className="w-full h-full object-cover"
+        <div className="relative h-48 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+          <Image 
+            src={imageUrl}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            priority={false}
           />
         </div>
       )}

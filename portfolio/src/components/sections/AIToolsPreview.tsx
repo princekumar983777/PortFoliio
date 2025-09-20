@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
-import { Card, CardGrid } from '../ui/Card';
+import { CardGrid } from '../ui/Card';
 
 const aiTools = [
   {

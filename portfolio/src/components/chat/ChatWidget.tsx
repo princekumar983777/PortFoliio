@@ -34,7 +34,7 @@ export default function ChatWidget() {
       const data = await res.json();
       const assistantMsg: Message = { id: crypto.randomUUID(), role: 'assistant', content: data.reply ?? 'Hello! This is a dummy response.' };
       setMessages((prev) => [...prev, assistantMsg]);
-    } catch (err) {
+    } catch (_err) {
       const assistantMsg: Message = { id: crypto.randomUUID(), role: 'assistant', content: 'Error contacting API. Please try again.' };
       setMessages((prev) => [...prev, assistantMsg]);
     } finally {
