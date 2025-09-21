@@ -16,7 +16,7 @@ export default function Hero() {
           className="text-center"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Hi, I'm <span className="text-indigo-600 dark:text-indigo-400">{portfolioData.about.name}</span>
+            Hi, I&apos;m <span className="text-indigo-600 dark:text-indigo-400">{portfolioData.about.name}</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2 max-w-3xl mx-auto">
             {portfolioData.about.title}
