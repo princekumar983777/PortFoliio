@@ -3,6 +3,7 @@
 import Hero from '@/components/sections/Hero';
 import ProjectsPreview from '@/components/sections/ProjectsPreview';
 import AIToolsPreview from '@/components/sections/AIToolsPreview';
+import HobbiesPreview from '@/components/sections/HobbiesPreview';
 
 export default function Home() {
   return (
@@ -10,9 +11,9 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <ProjectsPreview />
+        <HobbiesPreview />
         <AIToolsPreview />
       </main>
     </div>
   );
 }
- 
