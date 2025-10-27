@@ -1,27 +1,7 @@
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import { CardGrid } from '../ui/Card';
-
-const aiTools = [
-  {
-    title: 'Text Summarizer',
-    description: 'An AI-powered tool that generates concise summaries of long articles and documents.',
-    tags: ['NLP', 'Python', 'Transformers'],
-    link: '/ai-tools/text-summarizer',
-  },
-  {
-    title: 'Code Explainer',
-    description: 'Explains complex code snippets in plain English to help you understand how they work.',
-    tags: ['Code Analysis', 'Machine Learning', 'Python'],
-    link: '/ai-tools/code-explainer',
-  },
-  {
-    title: 'Image Generator',
-    description: 'Generate unique images from text descriptions using advanced AI models.',
-    tags: ['Computer Vision', 'GANs', 'Python'],
-    link: '/ai-tools/image-generator',
-  },
-];
+import { aiTools } from '@/data/aiTools';
 
 export default function AIToolsPreview() {
   return (

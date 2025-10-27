@@ -1,42 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi';
-
-type HobbyPost = {
-  id: string;
-  title: string;
-  excerpt: string;
-  imageUrl: string;
-  tags: string[];
-  date: string;
-};
-
-const previewPosts: HobbyPost[] = [
-  {
-    id: 'trail-runner-notes',
-    title: 'Trail Runner Notes: Dawn Miles',
-    excerpt: 'Chasing the sunrise over quiet trails. Gear tweaks, hydration strategy, and why negative splits feel like magic.',
-    imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
-    tags: ['Running', 'Health', 'Outdoors'],
-    date: '2024-12-18',
-  },
-  {
-    id: 'brew-journal',
-    title: 'Brew Journal: Perfecting the V60',
-    excerpt: 'Testing pours and grinds to dial in a sweet, balanced cup. Includes my 3:30 recipe and bloom technique.',
-    imageUrl: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187',
-    tags: ['Coffee', 'Home Lab'],
-    date: '2025-02-03',
-  },
-  {
-    id: 'foto-walk-portraits',
-    title: 'Photography Walk: Street Portraits',
-    excerpt: 'Learning to make quick connections with strangers. Notes on composition, light, and micro-stories.',
-    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-    tags: ['Photography', 'People'],
-    date: '2025-05-27',
-  },
-];
+import { blogs } from '@/data/blogs';
 
 export default function HobbiesPreview() {
   return (
@@ -54,8 +19,8 @@ export default function HobbiesPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {previewPosts.map((post) => (
-            <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+          {blogs.slice(0,3).map((post) => (
+            <Link key={post.id} href={`/blogs/${post.id}`} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700 block">
               <div className="relative h-48 bg-gray-100 dark:bg-gray-700 overflow-hidden">
                 <Image
                   src={post.imageUrl}
@@ -73,10 +38,10 @@ export default function HobbiesPreview() {
                     </span>
                   ))}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">{post.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">blog/{post.title}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{post.excerpt}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

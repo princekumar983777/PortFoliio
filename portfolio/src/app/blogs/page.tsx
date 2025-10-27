@@ -1,53 +1,6 @@
 import Image from 'next/image';
-
-type BlogPost = {
-  id: string;
-  title: string;
-  body: string;
-  imageUrl: string;
-  tags: string[];
-  date: string;
-  readingTime: string;
-};
-
-const posts: BlogPost[] = [
-  {
-    id: 'trail-runner-notes',
-    title: 'Trail Runner Notes: Dawn Miles',
-    body: 'Chasing the sunrise over quiet trails. Gear tweaks, hydration strategy, and why negative splits feel like magic. I log cadence, heart rate, and terrain to shape weekly blocks.',
-    imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
-    tags: ['Running', 'Health', 'Outdoors'],
-    date: '2024-12-18',
-    readingTime: '4 min',
-  },
-  {
-    id: 'brew-journal',
-    title: 'Brew Journal: Perfecting the V60',
-    body: 'Testing pours and grinds to dial in a sweet, balanced cup. This week: 15g coffee, 250g water at 94°C, 45s bloom, finish at 3:30. Notes on channeling and paper rinse.',
-    imageUrl: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187',
-    tags: ['Coffee', 'Home Lab'],
-    date: '2025-02-03',
-    readingTime: '3 min',
-  },
-  {
-    id: 'foto-walk-portraits',
-    title: 'Photography Walk: Street Portraits',
-    body: 'Learning to make quick connections with strangers. I focus on eye level framing and gentle prompts to bring out micro-stories. 35mm, f/2, soft side light.',
-    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-    tags: ['Photography', 'People'],
-    date: '2025-05-27',
-    readingTime: '5 min',
-  },
-  {
-    id: 'reading-notes-ai',
-    title: 'Reading Notes: AI Research Roundup',
-    body: 'A weekly digest of papers that caught my eye: retrieval-augmented agents, efficient fine-tuning at the edge, and multi-modal grounding with compact adapters.',
-    imageUrl: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f',
-    tags: ['Research', 'AI'],
-    date: '2025-06-14',
-    readingTime: '6 min',
-  },
-];
+import Link from 'next/link';
+import { blogs } from '@/data/blogs';
 
 export default function BlogsPage() {
   return (
@@ -59,8 +12,8 @@ export default function BlogsPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {posts.map((post) => (
-            <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+          {blogs.map((post) => (
+            <Link key={post.id} href={`/blogs/${post.id}`} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700 block">
               <div className="relative h-56 bg-gray-100 dark:bg-gray-700 overflow-hidden">
                 <Image
                   src={post.imageUrl}
@@ -80,9 +33,9 @@ export default function BlogsPage() {
                 </div>
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{post.title}</h2>
                 <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">{post.date} • {post.readingTime}</div>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{post.body}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{post.excerpt}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

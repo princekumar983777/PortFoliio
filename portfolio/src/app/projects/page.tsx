@@ -1,4 +1,6 @@
 import { portfolioData } from '@/data/portfolio';
+import Link from 'next/link';
+import { slugify } from '@/lib/slug';
 
 export default function ProjectsPage() {
   const projects = portfolioData.projects;
@@ -8,8 +10,8 @@ export default function ProjectsPage() {
       <h1 className="text-3xl font-bold mb-8">Projects</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((p, idx) => (
-          <div key={idx} className="border border-gray-200 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-800">
-            <h3 className="text-xl font-semibold mb-1">{p.title} <span className="text-sm text-gray-500">({p.year})</span></h3>
+          <Link key={idx} href={`/projects/${slugify(p.title)}`} className="border border-gray-200 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-800 block hover:shadow-md transition-shadow">
+            <h3 className="text-xl font-semibold mb-1">project/{p.title} <span className="text-sm text-gray-500">({p.year})</span></h3>
             <p className="text-gray-600 dark:text-gray-300 mb-4">{p.description}</p>
             <div className="flex flex-wrap gap-2">
               {Array.from(p.tech).map((t) => (
@@ -18,7 +20,7 @@ export default function ProjectsPage() {
                 </span>
               ))}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

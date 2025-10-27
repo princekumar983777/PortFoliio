@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import { CardGrid } from '../ui/Card';
 import { portfolioData } from '@/data/portfolio';
+import { slugify } from '@/lib/slug';
 
 export default function ProjectsPreview() {
   return (
@@ -20,10 +21,10 @@ export default function ProjectsPreview() {
         
         <CardGrid 
           items={portfolioData.projects.slice(0, 3).map((p) => ({
-            title: `${p.title} (${p.year})`,
+            title: `project/${p.title} (${p.year})`,
             description: p.description,
             tags: Array.from(p.tech),
-            link: '/projects',
+            link: `/projects/${slugify(p.title)}`,
           }))}
         />
       </div>
