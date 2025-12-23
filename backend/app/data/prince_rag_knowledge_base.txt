@@ -1,0 +1,105 @@
+ABOUT ME – PRINCE KUMAR
+
+Prince Kumar is a Full Stack Python Developer and AI/ML Engineer currently pursuing a B.Tech in Mechanical Engineering at NIT Jalandhar (2023–2027).
+He has strong interest in Artificial Intelligence, Machine Learning, Deep Learning, Computer Vision, NLP, and Full Stack Development.
+
+He focuses on building real-world AI-powered applications by combining backend systems, APIs, databases, and modern AI models.
+He emphasizes practical implementation, clean architecture, and scalable solutions.
+
+PROFESSIONAL OBJECTIVE
+
+Prince aims to work on AI-driven software systems that solve real-world problems using Python, Machine Learning, Deep Learning, and Full Stack technologies.
+He is actively seeking internships, freelance projects, and collaborative opportunities.
+
+CORE EXPERTISE
+
+- Full Stack Python Development
+- Machine Learning and Data Science
+- Deep Learning and Computer Vision
+- NLP and Retrieval-Augmented Generation (RAG)
+- Backend APIs and System Design
+- Databases and Data Analytics
+- AI-powered Web Applications
+
+WHAT I CAN DO
+
+Full Stack Development
+- Build end-to-end web applications using Django, Flask, and FastAPI
+- Design REST APIs with authentication and authorization
+- Integrate frontend using HTML, CSS, JavaScript, and Tailwind CSS
+- Develop scalable backend systems
+
+AI and Machine Learning
+- Data cleaning, preprocessing, and feature engineering
+- Train supervised and unsupervised ML models
+- Model evaluation and optimization
+- Build ML pipelines using Python
+
+Deep Learning and Computer Vision
+- Develop CNN-based models
+- Implement face recognition and emotion detection systems
+- Build real-time computer vision applications using OpenCV
+
+NLP and RAG Systems
+- Build RAG-based chatbots
+- Implement semantic search and vector embeddings
+- Use Hugging Face Transformers for NLP tasks
+- Design domain-specific AI assistants
+
+Data Analytics
+- Perform Exploratory Data Analysis (EDA)
+- Create dashboards using Power BI and Excel
+- Visualize insights using Matplotlib and Seaborn
+
+PROJECTS
+
+EDA on Multiple Datasets (2024)
+- Worked on 10+ datasets across finance, healthcare, and social media
+- Data cleaning, feature engineering, and visualization
+- Extracted actionable insights
+
+RAG-Based Medical Chatbot (2025)
+- Built a medical chatbot using Retrieval-Augmented Generation
+- Integrated knowledge base for context-aware responses
+- Implemented semantic retrieval and LLM-based answering
+
+Face Recognition and Emotion Detection (2025)
+- Developed real-time face recognition and emotion detection system
+- Built Streamlit app for live webcam predictions
+
+TECHNICAL SKILLS
+
+Programming: Python, C, C++
+Machine Learning: NumPy, Pandas, Scikit-learn
+Deep Learning: TensorFlow, PyTorch, CNNs, OpenCV
+NLP: Hugging Face, RAG Models, Tokenization
+Full Stack: Django, Flask, FastAPI, REST APIs
+Frontend: HTML, CSS, JavaScript, Tailwind CSS
+Databases: MySQL, PostgreSQL, MongoDB
+Analytics: Excel, Power BI, Data Visualization
+Tools: GitHub, VS Code, Jupyter, Colab, Kaggle, MLOps basics
+
+INTERNSHIP
+
+AI/ML Intern – AD Infocom Systems, Nagpur (Remote)
+June 2025 – July 2025
+- Worked with real-world datasets
+- Implemented ML algorithms
+- Built and tested ML models using Python
+
+ACHIEVEMENTS
+
+- 1st rank in college-level hackathon
+- Built 10+ ML mini-projects
+- Diamond Rank on Google Skill Boost
+- Solved 200+ DSA problems
+- Participated in multiple hackathons
+
+LEADERSHIP
+
+- Core Member, Deja Vu Club, NIT Jalandhar (2025–2026)
+
+ONLINE PRESENCE
+
+GitHub: https://github.com/princekumar983777
+LinkedIn: https://www.linkedin.com/in/prince-kumar-021460290
