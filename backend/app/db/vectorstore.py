@@ -6,7 +6,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 def get_vectorstore(docs):
     # Load Pinecone API key
     api_key = os.getenv("PINECONE_API_KEY")
-    print("api_key:", api_key)
+    # print("api_key:", api_key)
 
     pc = Pinecone(api_key=api_key)
 
