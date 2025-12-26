@@ -1,11 +1,11 @@
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
-import PortfolioNav from "@/components/portfolio/PortfolioNav";
-import HeroSection from "@/components/portfolio/HeroSection";
-import ProjectsSection from "@/components/portfolio/ProjectsSection";
-import BlogSection from "@/components/portfolio/BlogSection";
-import AboutSection from "@/components/portfolio/AboutSection";
-import ContactSection from "@/components/portfolio/ContactSection";
-import ChatBot from "@/components/portfolio/ChatBot";
+import PortfolioNav from "@/components/section/PortfolioNav";
+import HeroSection from "@/components/section/HeroSection";
+import ProjectsSection from "@/components/section/ProjectsSection";
+import BlogSection from "@/components/section/BlogSection";
+import AboutSection from "@/components/section/AboutSection";
+import ContactSection from "@/components/section/ContactSection";
+import ChatBot from "@/components/section/ChatBot";
 
 const TOTAL_SECTIONS = 5;
 

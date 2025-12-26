@@ -1,8 +1,60 @@
 import { ArrowDown, Github, Linkedin, Twitter } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface HeroSectionProps {
   onNavigate: (index: number) => void;
 }
+
+const TypingEffect = () => {
+  const texts = [
+    "AI / ML Engineer",
+    "Python Developer",
+    "Mechatronics / Automation Engineer",
+    "IoT Engineer",
+    "Data Analyst"
+  ];
+
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const fullText = texts[currentTextIndex];
+
+      if (!isDeleting) {
+        // Typing forward
+        setCurrentText(fullText.substring(0, currentText.length + 1));
+        setTypingSpeed(100);
+
+        if (currentText === fullText) {
+          // Pause at end of text
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        // Backspacing
+        setCurrentText(fullText.substring(0, currentText.length - 1));
+        setTypingSpeed(50);
+
+        if (currentText === "") {
+          setIsDeleting(false);
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+        }
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, currentTextIndex, isDeleting, typingSpeed, texts]);
+
+  return (
+    <span className="gradient-text font-medium">
+      {currentText}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+};
 
 const HeroSection = ({ onNavigate }: HeroSectionProps) => {
   return (
@@ -21,13 +73,11 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
               Hello, I'm
             </p>
             <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-fade-in-up delay-100">
-              H Haldiya
+              Prince Kumar
             </h1>
             <div className="h-12 overflow-hidden">
               <p className="text-xl md:text-2xl text-muted-foreground animate-fade-in-up delay-200">
-                <span className="gradient-text font-medium">
-                  Mechanical Engineer → AI / ML / Backend / Data Science
-                </span>
+                <TypingEffect />
               </p>
             </div>
           </div>
@@ -86,7 +136,9 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           <div className="relative">
             <div className="w-80 h-80 rounded-full bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center animate-pulse-glow">
               <div className="w-72 h-72 rounded-full bg-card border border-border/50 flex items-center justify-center overflow-hidden">
-                <div className="text-8xl font-bold gradient-text">H</div>
+                <div className="text-8xl font-bold gradient-text">
+                  <img src="/dp.jpg" alt="H" />
+                </div>
               </div>
             </div>
             {/* Floating elements */}
