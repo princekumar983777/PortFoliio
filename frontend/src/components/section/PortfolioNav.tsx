@@ -58,10 +58,8 @@ const PortfolioNav = ({ currentSection, onNavigate }: PortfolioNavProps) => {
           onClick={() => handleNavClick(0)}
           className="flex items-center gap-2 text-xl font-bold tracking-tight hover:text-primary transition-colors"
         >
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-primary-foreground font-bold text-sm">H</span>
-          </div>
-          <span className="hidden sm:inline">Haldiya</span>
+          <img src="/logo.png" alt="Logo" className="w-12 h-12 rounded-full p-0 m-0" />
+          <span className="hidden sm:inline text-xl font-bold tracking-tight">Haldiya</span>
         </button>
 
         {/* Desktop Navigation */}

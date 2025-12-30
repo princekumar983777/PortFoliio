@@ -44,7 +44,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="section-container bg-section-contact flex items-center justify-center relative overflow-y-auto custom-scrollbar">
+    <section className="section-container bg-section-contact flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-32">
       <div className="max-w-6xl mx-auto px-6 py-20 w-full">
         {/* Section header */}
         <div className="text-center mb-12">

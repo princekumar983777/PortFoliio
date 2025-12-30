@@ -25,7 +25,7 @@ const skills = [
 
 const AboutSection = () => {
   return (
-    <section className="section-container bg-section-about flex items-center justify-center relative overflow-y-auto custom-scrollbar">
+    <section className="section-container bg-section-about flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-32">
       <div className="max-w-6xl mx-auto px-6 py-20">
         {/* Section header */}
         <div className="mb-12">

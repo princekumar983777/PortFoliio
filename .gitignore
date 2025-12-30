@@ -24,3 +24,9 @@ out/
 # Mac/OS/Windows
 .DS_Store
 Thumbs.db
+
+
+# Jupyter notebooks
+*.ipynb
+
+
