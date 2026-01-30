@@ -105,7 +105,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           {/* Social Links - Only show on desktop */}
           <div className="hidden lg:flex fixed left-8 bottom-8 flex-col gap-4 z-40 animate-fade-in-up delay-500">
             <a
-              href="https://github.com"
+              href="https://github.com/princekumar983777/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -113,7 +113,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
               <Github size={22} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/prince-kumar-021460290/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -121,7 +121,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
               <Linkedin size={22} />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/PrinceK29628508"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
