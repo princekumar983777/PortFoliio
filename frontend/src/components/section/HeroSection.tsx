@@ -65,45 +65,45 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-float delay-300" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
         {/* Left: Content */}
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <p className="text-primary font-mono text-sm tracking-wider animate-fade-in-up">
+        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
+          <div className="space-y-3 sm:space-y-4">
+            <p className="text-primary font-mono text-sm sm:text-base tracking-wider animate-fade-in-up">
               Hello, I'm
             </p>
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-fade-in-up delay-100">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in-up delay-100">
               Prince Kumar
             </h1>
-            <div className="h-12 overflow-hidden">
-              <p className="text-xl md:text-2xl text-muted-foreground animate-fade-in-up delay-200">
+            <div className="h-12 sm:h-14 overflow-hidden">
+              <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground animate-fade-in-up delay-200">
                 <TypingEffect />
               </p>
             </div>
           </div>
 
-          <p className="text-lg text-muted-foreground max-w-lg leading-relaxed animate-fade-in-up delay-300">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto lg:mx-0 leading-relaxed animate-fade-in-up delay-300">
             Transforming complex problems into elegant solutions. Passionate about 
             building intelligent systems that make a difference.
           </p>
 
-          <div className="flex flex-wrap gap-4 animate-fade-in-up delay-400">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 animate-fade-in-up delay-400">
             <button
               onClick={() => onNavigate(1)}
-              className="btn-primary"
+              className="btn-primary text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-2.5"
             >
               View Projects
             </button>
             <button
               onClick={() => onNavigate(4)}
-              className="btn-secondary"
+              className="btn-secondary text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-2.5"
             >
-              Hire Me
+              Contact Me
             </button>
           </div>
 
-          {/* Social links */}
-          <div className="flex items-center gap-6 pt-4 animate-fade-in-up delay-500">
+          {/* Social Links - Only show on desktop */}
+          <div className="hidden lg:flex fixed left-8 bottom-8 flex-col gap-4 z-40 animate-fade-in-up delay-500">
             <a
               href="https://github.com"
               target="_blank"

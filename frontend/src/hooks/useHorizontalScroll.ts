@@ -3,11 +3,13 @@ import { useState, useEffect, useCallback, useRef } from "react";
 interface UseHorizontalScrollOptions {
   totalSections: number;
   transitionDuration?: number;
+  isMobile?: boolean;
 }
 
 export const useHorizontalScroll = ({
   totalSections,
   transitionDuration = 800,
+  isMobile = false,
 }: UseHorizontalScrollOptions) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -170,24 +172,45 @@ export const useHorizontalScroll = ({
   }, [currentSection, navigateToSection, totalSections]);
 
   useEffect(() => {
+    if (isMobile) return;
+    
+    const currentSectionEl = sectionRefs.current[currentSection];
+    if (!currentSectionEl) return;
+
+    const handleWheelEvent = (e: WheelEvent) => handleWheel(e);
+    currentSectionEl.addEventListener('wheel', handleWheelEvent, { passive: false });
+
+    return () => {
+      currentSectionEl.removeEventListener('wheel', handleWheelEvent);
+    };
+  }, [currentSection, handleWheel, isMobile]);
+
+  useEffect(() => {
+    if (isMobile) return;
+    
+    const handleKeyDownEvent = (e: KeyboardEvent) => handleKeyDown(e);
+    window.addEventListener('keydown', handleKeyDownEvent);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDownEvent);
+    };
+  }, [handleKeyDown, isMobile]);
+
+  useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     // Use passive: false only for wheel to allow preventDefault
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("keydown", handleKeyDown);
     container.addEventListener("touchstart", handleTouchStart, { passive: true });
     container.addEventListener("touchmove", handleTouchMove, { passive: true });
     container.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      container.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("keydown", handleKeyDown);
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [handleWheel, handleKeyDown, handleTouchStart, handleTouchMove, handleTouchEnd]);
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   return {
     currentSection,
