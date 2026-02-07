@@ -144,7 +144,7 @@ const ContactSection = () => {
                   <div className="p-3 rounded-lg bg-secondary">
                     <Mail size={20} />
                   </div>
-                  <span>hello@hhaldiya.com</span>
+                  <span>princekumar9837771886@gmail.com</span>
                 </a>
                 <div className="flex items-center gap-4 text-muted-foreground">
                   <div className="p-3 rounded-lg bg-secondary">
@@ -160,7 +160,7 @@ const ContactSection = () => {
               <h4 className="font-semibold mb-4">Connect with me</h4>
               <div className="flex gap-4">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/princekumar983777/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
@@ -168,7 +168,7 @@ const ContactSection = () => {
                   <Github size={22} />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/prince-kumar-021460290/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
@@ -176,7 +176,7 @@ const ContactSection = () => {
                   <Linkedin size={22} />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://x.com/PrinceK29628508"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
