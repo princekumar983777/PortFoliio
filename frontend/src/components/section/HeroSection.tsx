@@ -73,7 +73,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
               Hello, I'm
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in-up delay-100">
-              Prince Kumar
+              Prince Kumar Haldiya
             </h1>
             <div className="h-12 sm:h-14 overflow-hidden">
               <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground animate-fade-in-up delay-200">
