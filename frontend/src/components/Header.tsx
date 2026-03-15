@@ -37,7 +37,11 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center min-w-0">
             <a href="/" className="flex items-center gap-1.5 sm:gap-2">
-              <img src="/images/logo.png" alt="Haldiya" className="w-8 h-8 sm:w-8 sm:h-8 rounded-lg flex-shrink-0" />
+              <img
+                src="/images/logo.png"
+                alt="Haldiya"
+                className="w-8 h-8 sm:w-8 sm:h-8 rounded-lg flex-shrink-0"
+              />
               <span className="text-base sm:text-xl font-bold font-serif truncate">Haldiya</span>
             </a>
           </div>

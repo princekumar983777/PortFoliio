@@ -57,8 +57,8 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
         <div className={`flex items-center justify-between h-16`}>
           {/* Logo */}
           <button
-            onClick={() => handleNavClick(0)}
-            className="flex items-center space-x-4"
+          onClick={() => handleNavClick(0)}
+          className="flex items-center space-x-4"
           >
             {isMobile && (
               <button
@@ -69,7 +69,11 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             )}
-            <img src="/images/logo.png" alt="Haldiya" className="w-12 h-12 rounded-full p-0 m-0" />
+            <img
+              src="/images/logo.png"
+              alt="Haldiya"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full p-0 m-0"
+            />
             <span className="hidden sm:inline text-xl font-bold tracking-tight">Haldiya</span>
           </button>
 
