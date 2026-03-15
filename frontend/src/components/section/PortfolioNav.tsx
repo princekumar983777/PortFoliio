@@ -69,7 +69,7 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             )}
-            <img src="/logo.png" alt="Logo" className="w-12 h-12 rounded-full p-0 m-0" />
+            <img src="/images/logo.png" alt="Haldiya" className="w-12 h-12 rounded-full p-0 m-0" />
             <span className="hidden sm:inline text-xl font-bold tracking-tight">Haldiya</span>
           </button>
 

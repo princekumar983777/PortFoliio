@@ -37,10 +37,8 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center min-w-0">
             <a href="/" className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-primary-foreground font-bold text-base sm:text-lg">P</span>
-              </div>
-              <span className="text-base sm:text-xl font-bold font-serif truncate">Perspective</span>
+              <img src="/images/logo.png" alt="Haldiya" className="w-8 h-8 sm:w-8 sm:h-8 rounded-lg flex-shrink-0" />
+              <span className="text-base sm:text-xl font-bold font-serif truncate">Haldiya</span>
             </a>
           </div>
 
