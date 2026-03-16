@@ -4,8 +4,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any
 
 from app.core.config import SESSION_EXPIRY_DAYS
-from app.utils.genai import OptimizedRAGChat
-from app.db.load_vectorstore import vectorstore
+from app.db.load_vectorstore import get_vectorstore, get_vectorstore_init_error
 
 sessions: Dict[str, Dict[str, Any]] = {}
 session_lock = threading.Lock()
@@ -21,6 +20,21 @@ def get_or_create_session(session_id: str):
                 del sessions[session_id]
                 return None
         else:
+            vectorstore = get_vectorstore()
+            if vectorstore is None:
+                err = get_vectorstore_init_error()
+                detail = (
+                    f"Vectorstore not configured. {err}"
+                    if err
+                    else "Vectorstore not configured."
+                )
+                raise RuntimeError(detail)
+            try:
+                from app.utils.genai import OptimizedRAGChat
+            except Exception as e:
+                raise RuntimeError(
+                    "LLM client not installed. Install optional deps (e.g. google-genai) to use /chat."
+                ) from e
             sessions[session_id] = {
                 "created_at": current_time,
                 "chat_instance": OptimizedRAGChat(vectorstore)

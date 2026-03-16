@@ -1,7 +1,7 @@
-import os
 from google import genai
 from google.genai import types
 from app.data.prompts import system_prompt
+from app.core.config import GEMINI_API_KEY_1, GEMINI_API_KEY_2
 
 
 class OptimizedRAGChat:
@@ -10,8 +10,8 @@ class OptimizedRAGChat:
 
         # API keys
         self.api_keys = [
-            os.getenv("GEMINI_API_KEY_1"),
-            os.getenv("GEMINI_API_KEY_2"),
+            GEMINI_API_KEY_1,
+            GEMINI_API_KEY_2,
         ]
 
         self.current_key_index = 0
@@ -24,6 +24,10 @@ class OptimizedRAGChat:
 
     def _initialize_client(self):
         """Create client with current API key"""
+        if not self.api_keys[self.current_key_index]:
+            raise ValueError(
+                f"Missing GEMINI_API_KEY_{self.current_key_index + 1} in backend/.env"
+            )
         self.client = genai.Client(
             api_key=self.api_keys[self.current_key_index]
         )

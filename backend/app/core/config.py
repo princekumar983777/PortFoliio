@@ -1,20 +1,27 @@
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from pathlib import Path
+from dotenv import dotenv_values
 
 APP_NAME = "RAG Chat Backend"
 SESSION_EXPIRY_DAYS = 1
 
-HOST = os.getenv("HOST", "127.0.0.1")
-PORT = int(os.getenv("PORT", 8000))
+_ENV_PATH = Path(__file__).resolve().parents[2] / ".env"
+_ENV = dotenv_values(_ENV_PATH) if _ENV_PATH.exists() else {}
 
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+def _get(key: str, default=None):
+    val = _ENV.get(key)
+    return default if val in (None, "") else val
 
-UPDATE_EMBEDDINGS_PASSWORD = os.getenv("UPDATE_EMBEDDINGS_PASSWORD")
+HOST = _get("HOST", "127.0.0.1")
+PORT = int(_get("PORT", 8000))
 
+PINECONE_API_KEY = _get("PINECONE_API_KEY")
+PINECONE_INDEX_NAME = _get("PINECONE_INDEX_NAME")
 
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password")
-ADMIN_SESSION_TTL_MINUTES = int(os.getenv("ADMIN_SESSION_TTL_MINUTES", 30))
+GEMINI_API_KEY_1 = _get("GEMINI_API_KEY_1")
+GEMINI_API_KEY_2 = _get("GEMINI_API_KEY_2")
+
+UPDATE_EMBEDDINGS_PASSWORD = _get("UPDATE_EMBEDDINGS_PASSWORD")
+
+ADMIN_USERNAME = _get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = _get("ADMIN_PASSWORD", "password")
+ADMIN_SESSION_TTL_MINUTES = int(_get("ADMIN_SESSION_TTL_MINUTES", 30))

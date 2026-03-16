@@ -1,11 +1,11 @@
- import threading
+import threading
 from fastapi import FastAPI
 
 from app.core.config import APP_NAME, HOST, PORT
 from app.core.session import cleanup_loop
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import chat, health, session, admin , ui , projects, blogs
+from app.routes import chat, health, session, admin, projects, blogs
 
 app = FastAPI(title=APP_NAME)
 
@@ -21,7 +21,6 @@ app.add_middleware(
 )
 
 # Routers
-app.include_router(ui.router)
 app.include_router(chat.router)
 app.include_router(health.router)
 app.include_router(session.router)
@@ -34,7 +33,7 @@ app.include_router(blogs.router)
 def startup():
     threading.Thread(target=cleanup_loop, daemon=True).start()
 
-    print(f"🚀 {APP_NAME} running at http://{HOST}:{PORT}")
+    print(f"{APP_NAME} running at http://{HOST}:{PORT}")
 
 @app.get("/")
 def read_root():
