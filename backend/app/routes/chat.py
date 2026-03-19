@@ -8,6 +8,12 @@ from app.core.config import SESSION_EXPIRY_MINUTES
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 
+@router.options("", status_code=200)
+def chat_options():
+    """Handle CORS preflight requests for chat endpoint."""
+    return {"message": "OK"}
+
+
 @router.post("", response_model=ChatResponse)
 def chat(req: ChatRequest):
     # Validate session (middleware-like validation)

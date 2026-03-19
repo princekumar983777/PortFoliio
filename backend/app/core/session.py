@@ -27,27 +27,33 @@ def get_session(session_id: str) -> Optional[Dict[str, Any]]:
 def create_session(session_id: str) -> Dict[str, Any]:
     """Create a new session with initialized chat instance and empty messages."""
     vectorstore = get_vectorstore()
-    if vectorstore is None:
-        err = get_vectorstore_init_error()
-        detail = (
-            f"Vectorstore not configured. {err}"
-            if err
-            else "Vectorstore not configured."
-        )
-        raise RuntimeError(detail)
-    try:
-        from app.utils.genai import OptimizedRAGChat
-    except Exception as e:
-        raise RuntimeError(
-            "LLM client not installed. Install optional deps (e.g. google-genai) to use /chat."
-        ) from e
     
     session = {
         "created_at": datetime.now(),
         "last_activity": datetime.now(),
-        "chat_instance": OptimizedRAGChat(vectorstore),
+        "chat_instance": None,  # Will be set below
         "messages": []  # List of {"role": "user"|"assistant", "content": str}
     }
+    
+    if vectorstore is None:
+        # Fallback: create a simple chat instance that doesn't use vectorstore
+        try:
+            from app.utils.simple_chat import SimpleChat
+            session["chat_instance"] = SimpleChat()
+        except Exception as e:
+            raise RuntimeError(f"Vectorstore not configured and fallback chat failed: {e}")
+    else:
+        try:
+            from app.utils.genai import OptimizedRAGChat
+            session["chat_instance"] = OptimizedRAGChat(vectorstore)
+        except Exception as e:
+            raise RuntimeError(
+                "LLM client not installed. Install optional deps (e.g. google-genai) to use /chat."
+            ) from e
+    
+    with session_lock:
+        sessions[session_id] = session
+    return session
     with session_lock:
         sessions[session_id] = session
     return session
