@@ -2,22 +2,31 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timedelta
 
 from app.schemas.chat import ChatRequest, ChatResponse
-from app.core.session import get_or_create_session, sessions
-from app.core.config import SESSION_EXPIRY_DAYS
+from app.core.session import get_or_create_session, add_message
+from app.core.config import SESSION_EXPIRY_MINUTES
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 
 @router.post("", response_model=ChatResponse)
 def chat(req: ChatRequest):
+    # Validate session (middleware-like validation)
     session = get_or_create_session(req.session_id)
-
     if not session:
         raise HTTPException(status_code=410, detail="Session expired")
 
     try:
-        reply = session["chat_instance"].get_rag_response(req.message)
-        expires_at = session["created_at"] + timedelta(days=SESSION_EXPIRY_DAYS)
+        # Add user message to history
+        add_message(req.session_id, "user", req.message)
+        
+        # Get response from chat instance, passing conversation history for better RAG
+        reply = session["chat_instance"].get_rag_response(req.message, session["messages"])
+        
+        # Add assistant response to history
+        add_message(req.session_id, "assistant", reply)
+        
+        # Calculate expiry time
+        expires_at = session["last_activity"] + timedelta(minutes=SESSION_EXPIRY_MINUTES)
 
         return ChatResponse(
             reply=reply,

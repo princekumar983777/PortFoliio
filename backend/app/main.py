@@ -22,7 +22,11 @@ app.add_middleware(
 
 # Routers
 app.include_router(chat.router)
+
+# /health -> return the health status
 app.include_router(health.router)
+
+
 app.include_router(session.router)
 app.include_router(admin.router)
 app.include_router(projects.router)
@@ -42,4 +46,5 @@ def read_root():
             "version": "1.0.0",
             "Hint": "Access the admin UI at /admin"
             }
+
 

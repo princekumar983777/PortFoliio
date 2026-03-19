@@ -2,6 +2,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 APP_NAME = "RAG Chat Backend"
+SESSION_EXPIRY_MINUTES = 30
 SESSION_EXPIRY_DAYS = 1
 
 _ENV_PATH = Path(__file__).resolve().parents[2] / ".env"

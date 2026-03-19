@@ -7,9 +7,17 @@ class OptimizedRAGChat:
         self.model = model
         self.ollama_url = "http://localhost:11434/api/generate"
 
-    def get_rag_response(self, user_query):
+    def get_rag_response(self, user_query, conversation_history=None):
+        # Use conversation history for better context if provided
+        search_query = user_query
+        if conversation_history:
+            # Include recent history in search query for better retrieval
+            recent_messages = conversation_history[-6:]  # Last 3 exchanges
+            history_text = "\n".join([f"{msg['role']}: {msg['content']}" for msg in recent_messages])
+            search_query = f"{history_text}\n\nCurrent question: {user_query}"
+        
         # Step 1: Search the vector store
-        search_results = self.vectorstore.similarity_search(user_query, k=3)
+        search_results = self.vectorstore.similarity_search(search_query, k=3)
 
         # Step 2: Extract retrieved context
         context = "\n\n".join([doc.page_content for doc in search_results])

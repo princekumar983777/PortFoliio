@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: number;
@@ -15,48 +16,28 @@ const initialMessages: Message[] = [
   },
 ];
 
-const botResponses: Record<string, string> = {
-  skills:
-    "H specializes in AI/ML, Backend Development, and Data Science. Key technologies include Python, TensorFlow, PyTorch, Go, and various cloud platforms.",
-  experience:
-    "H has 5+ years of experience, transitioning from Mechanical Engineering to AI/ML and software development. This unique background brings a structured, analytical approach to problem-solving.",
-  projects:
-    "Check out the Projects section for detailed showcases! Highlights include an AI-powered analytics platform, autonomous drone navigation system, and scalable data pipelines.",
-  contact:
-    "The best way to reach H is through the contact form in the Hire Me section, or via email at hello@hhaldiya.com. H is currently available for new opportunities!",
-  availability:
-    "H is currently open for freelance projects, consulting, and full-time opportunities. Feel free to reach out!",
-  default:
-    "I can help you learn about H's skills, experience, projects, or how to get in touch. What would you like to know?",
-};
-
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string>("");
+  const { toast } = useToast();
 
-  const getBotResponse = (userMessage: string): string => {
-    const lowerMessage = userMessage.toLowerCase();
-    if (lowerMessage.includes("skill") || lowerMessage.includes("tech")) {
-      return botResponses.skills;
+  // Initialize session on component mount
+  useEffect(() => {
+    const storedSessionId = localStorage.getItem("chatSessionId");
+    if (storedSessionId) {
+      setSessionId(storedSessionId);
+    } else {
+      const newSessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem("chatSessionId", newSessionId);
+      setSessionId(newSessionId);
     }
-    if (lowerMessage.includes("experience") || lowerMessage.includes("background")) {
-      return botResponses.experience;
-    }
-    if (lowerMessage.includes("project") || lowerMessage.includes("work")) {
-      return botResponses.projects;
-    }
-    if (lowerMessage.includes("contact") || lowerMessage.includes("hire") || lowerMessage.includes("email")) {
-      return botResponses.contact;
-    }
-    if (lowerMessage.includes("available") || lowerMessage.includes("opportunity")) {
-      return botResponses.availability;
-    }
-    return botResponses.default;
-  };
+  }, []);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    if (!input.trim() || !sessionId || loading) return;
 
     const userMessage: Message = {
       id: messages.length + 1,
@@ -65,17 +46,54 @@ const ChatBot = () => {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const userInput = input;
     setInput("");
+    setLoading(true);
 
-    // Simulate bot response
-    setTimeout(() => {
+    try {
+      // Send request to backend
+      const response = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          message: userInput,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Add bot response to UI
       const botMessage: Message = {
         id: messages.length + 2,
-        text: getBotResponse(input),
+        text: data.reply,
         isBot: true,
       };
       setMessages((prev) => [...prev, botMessage]);
-    }, 500);
+    } catch (error) {
+      console.error("Chat error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to get response. Please try again.",
+        variant: "destructive",
+      });
+
+      // Show error message in chat
+      const errorMsg: Message = {
+        id: messages.length + 2,
+        text: "Sorry, I encountered an error. Please try again later.",
+        isBot: true,
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -136,6 +154,17 @@ const ChatBot = () => {
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="bg-secondary text-foreground px-4 py-2 rounded-lg">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
@@ -147,11 +176,13 @@ const ChatBot = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-colors"
+                disabled={loading}
+                className="flex-1 px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-colors disabled:opacity-50"
               />
               <button
                 onClick={handleSend}
-                className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                disabled={loading || !input.trim()}
+                className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={18} />
               </button>

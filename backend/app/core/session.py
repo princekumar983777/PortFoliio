@@ -1,46 +1,74 @@
 import time
 import threading
 from datetime import datetime, timedelta
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 
-from app.core.config import SESSION_EXPIRY_DAYS
+from app.core.config import SESSION_EXPIRY_MINUTES
 from app.db.load_vectorstore import get_vectorstore, get_vectorstore_init_error
 
+# In-memory session store (replace with Redis later)
+# To use Redis: import redis; redis_client = redis.Redis(); sessions = redis_client
 sessions: Dict[str, Dict[str, Any]] = {}
 session_lock = threading.Lock()
 
 
-def get_or_create_session(session_id: str):
-    current_time = datetime.now()
+def get_session(session_id: str) -> Optional[Dict[str, Any]]:
+    """Retrieve a session if it exists and hasn't expired."""
+    with session_lock:
+        if session_id not in sessions:
+            return None
+        session = sessions[session_id]
+        if datetime.now() - session["last_activity"] > timedelta(minutes=SESSION_EXPIRY_MINUTES):
+            del sessions[session_id]
+            return None
+        return session
 
+
+def create_session(session_id: str) -> Dict[str, Any]:
+    """Create a new session with initialized chat instance and empty messages."""
+    vectorstore = get_vectorstore()
+    if vectorstore is None:
+        err = get_vectorstore_init_error()
+        detail = (
+            f"Vectorstore not configured. {err}"
+            if err
+            else "Vectorstore not configured."
+        )
+        raise RuntimeError(detail)
+    try:
+        from app.utils.genai import OptimizedRAGChat
+    except Exception as e:
+        raise RuntimeError(
+            "LLM client not installed. Install optional deps (e.g. google-genai) to use /chat."
+        ) from e
+    
+    session = {
+        "created_at": datetime.now(),
+        "last_activity": datetime.now(),
+        "chat_instance": OptimizedRAGChat(vectorstore),
+        "messages": []  # List of {"role": "user"|"assistant", "content": str}
+    }
+    with session_lock:
+        sessions[session_id] = session
+    return session
+
+
+def add_message(session_id: str, role: str, content: str):
+    """Add a message to the session's conversation history."""
     with session_lock:
         if session_id in sessions:
-            created_at = sessions[session_id]["created_at"]
-            if current_time - created_at > timedelta(days=SESSION_EXPIRY_DAYS):
-                del sessions[session_id]
-                return None
-        else:
-            vectorstore = get_vectorstore()
-            if vectorstore is None:
-                err = get_vectorstore_init_error()
-                detail = (
-                    f"Vectorstore not configured. {err}"
-                    if err
-                    else "Vectorstore not configured."
-                )
-                raise RuntimeError(detail)
-            try:
-                from app.utils.genai import OptimizedRAGChat
-            except Exception as e:
-                raise RuntimeError(
-                    "LLM client not installed. Install optional deps (e.g. google-genai) to use /chat."
-                ) from e
-            sessions[session_id] = {
-                "created_at": current_time,
-                "chat_instance": OptimizedRAGChat(vectorstore)
-            }
+            sessions[session_id]["messages"].append({"role": role, "content": content})
+            sessions[session_id]["last_activity"] = datetime.now()
 
-        return sessions[session_id]
+
+def get_or_create_session(session_id: str) -> Optional[Dict[str, Any]]:
+    """Get existing session or create new one. Updates last_activity."""
+    session = get_session(session_id)
+    if session:
+        session["last_activity"] = datetime.now()
+        return session
+    else:
+        return create_session(session_id)
 
 
 def cleanup_expired_sessions():
@@ -49,7 +77,7 @@ def cleanup_expired_sessions():
 
     with session_lock:
         for sid, data in sessions.items():
-            if now - data["created_at"] > timedelta(days=SESSION_EXPIRY_DAYS):
+            if now - data["last_activity"] > timedelta(minutes=SESSION_EXPIRY_MINUTES):
                 expired.append(sid)
 
         for sid in expired:
@@ -59,4 +87,4 @@ def cleanup_expired_sessions():
 def cleanup_loop():
     while True:
         cleanup_expired_sessions()
-        time.sleep(3600)
+        time.sleep(300)  # Check every 5 minutes
