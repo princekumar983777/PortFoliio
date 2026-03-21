@@ -53,15 +53,8 @@ class OptimizedRAGChat:
     # ------------------ RAG Call ------------------
 
     def get_rag_response(self, user_query, conversation_history=None):
-        # Use conversation history for better context if provided
-        search_query = user_query
-        if conversation_history:
-            # Include recent history in search query for better retrieval
-            recent_messages = conversation_history[-6:]  # Last 3 exchanges
-            history_text = "\n".join([f"{msg['role']}: {msg['content']}" for msg in recent_messages])
-            search_query = f"{history_text}\n\nCurrent question: {user_query}"
-        
-        search_results = self.vectorstore.similarity_search(search_query, k=3)
+        # Simple vector search with just the user query
+        search_results = self.vectorstore.similarity_search(user_query, k=3)
         context = "\n\n".join(doc.page_content for doc in search_results)
 
         enhanced_query = f"""
