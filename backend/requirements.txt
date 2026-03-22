@@ -1,25 +1,5 @@
-## =========================
-## Core Backend
-## =========================
 fastapi
 uvicorn[standard]
 pydantic
 python-dotenv
-requests
-
-## RAG & LLM
-## =========================
-# Optional extras (install only if you plan to use /chat with Pinecone + HF embeddings)
-# These can be heavy and may cause long dependency resolution on Windows.
-#
-# google-genai
-# pinecone
-# langchain
-# langchain-community
-# langchain-pinecone
-# langchain-huggingface
-# sentence-transformers
-# torch
-## =========================
-
-
+google-genai
