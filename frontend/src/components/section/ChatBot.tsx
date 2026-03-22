@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 interface Message {
@@ -16,77 +18,82 @@ const initialMessages: Message[] = [
   },
 ];
 
+const API_URL = "https://portfoliobackend-theta-gold.vercel.app/chat";
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Initialize session on component mount
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
-    const storedSessionId = localStorage.getItem("chatSessionId");
-    if (storedSessionId) {
-      setSessionId(storedSessionId);
-    } else {
-      const newSessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem("chatSessionId", newSessionId);
-      setSessionId(newSessionId);
-    }
-  }, []);
+    scrollToBottom();
+  }, [messages, loading]);
 
   const handleSend = async () => {
-    if (!input.trim() || !sessionId || loading) return;
+    if (!input.trim() || loading) return;
 
     const userMessage: Message = {
-      id: messages.length + 1,
-      text: input,
+      id: Date.now(),
+      text: input.trim(),
       isBot: false,
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    const userInput = input;
+    const userInput = input.trim();
     setInput("");
     setLoading(true);
 
+    const requestBody = { message: userInput };
+    console.log("[ChatBot] Sending request to:", API_URL);
+    console.log("[ChatBot] Request body:", requestBody);
+
     try {
-      // Send request to backend
-      const response = await fetch("http://localhost:8000/chat", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          session_id: sessionId,
-          message: userInput,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
+      // Log full response for debugging
+      const responseText = await response.text();
+      console.log("[ChatBot] Response status:", response.status, response.statusText);
+      console.log("[ChatBot] Response headers:", Object.fromEntries(response.headers.entries()));
+      console.log("[ChatBot] Response body (raw):", responseText);
+
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        console.error("[ChatBot] API error - status:", response.status, "body:", responseText);
+        throw new Error(`API error: ${response.status} - ${responseText}`);
       }
 
-      const data = await response.json();
+      const data = JSON.parse(responseText);
+      console.log("[ChatBot] Parsed response data:", data);
 
-      // Add bot response to UI
+      const replyText = data.reply ?? "No response received.";
       const botMessage: Message = {
-        id: messages.length + 2,
-        text: data.reply,
+        id: Date.now() + 1,
+        text: replyText,
         isBot: true,
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("[ChatBot] Chat error:", error);
       toast({
         title: "Error",
         description: "Failed to get response. Please try again.",
         variant: "destructive",
       });
 
-      // Show error message in chat
       const errorMsg: Message = {
-        id: messages.length + 2,
+        id: Date.now() + 1,
         text: "Sorry, I encountered an error. Please try again later.",
         isBot: true,
       };
@@ -96,7 +103,7 @@ const ChatBot = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -105,49 +112,51 @@ const ChatBot = () => {
 
   return (
     <>
-      {/* Chat button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`chatbot-button ${isOpen ? "scale-0" : "scale-100"}`}
+        className={`fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all flex items-center justify-center z-40 ${
+          isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
+        }`}
         aria-label="Open chat"
       >
         <MessageCircle size={24} />
       </button>
 
-      {/* Chat window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-80 md:w-96 h-[28rem] glass-card flex flex-col z-50 animate-fade-in-up">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="fixed bottom-6 right-6 w-[min(420px,calc(100vw-2rem))] h-[560px] flex flex-col rounded-2xl bg-background border border-border shadow-2xl z-50 overflow-hidden animate-fade-in-up">
+          {/* Header - ChatGPT style */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-semibold text-sm">
                 H
               </div>
               <div>
                 <h4 className="font-semibold text-sm">Portfolio Assistant</h4>
-                <span className="text-xs text-green-500">Online</span>
+                <span className="text-xs text-muted-foreground">Always here to help</span>
               </div>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(false)}
-              className="p-2 hover:bg-secondary rounded-lg transition-colors"
+              className="h-9 w-9 rounded-lg"
             >
               <X size={18} />
-            </button>
+            </Button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 space-y-5 scroll-smooth">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}
               >
                 <div
-                  className={`max-w-[80%] px-4 py-2 rounded-lg text-sm ${
+                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     message.isBot
-                      ? "bg-secondary text-foreground"
-                      : "bg-primary text-primary-foreground"
+                      ? "bg-muted rounded-tl-sm text-foreground"
+                      : "bg-primary text-primary-foreground rounded-tr-sm"
                   }`}
                 >
                   {message.text}
@@ -156,36 +165,33 @@ const ChatBot = () => {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-secondary text-foreground px-4 py-2 rounded-lg">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
-                    <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                  </div>
+                <div className="bg-muted text-muted-foreground px-4 py-2.5 rounded-2xl rounded-tl-sm text-sm animate-pulse">
+                  Typing...
                 </div>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <div className="p-4 border-t border-border">
+          {/* Input area */}
+          <div className="p-4 border-t border-border bg-background">
             <div className="flex gap-2">
-              <input
-                type="text"
+              <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask me anything..."
+                onKeyDown={handleKeyDown}
+                placeholder="Message Portfolio Assistant..."
                 disabled={loading}
-                className="flex-1 px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-colors disabled:opacity-50"
+                className="flex-1 rounded-xl border-border bg-muted/50 focus-visible:ring-2"
               />
-              <button
+              <Button
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                size="icon"
+                className="h-10 w-10 rounded-xl shrink-0"
               >
                 <Send size={18} />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
