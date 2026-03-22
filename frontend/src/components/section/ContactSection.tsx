@@ -44,19 +44,19 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="section-container bg-section-contact flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-32">
-      <div className="max-w-6xl mx-auto px-6 py-20 w-full">
+    <section className="section-container bg-section-contact flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-8 sm:pt-16 md:pt-32 min-h-0">
+      <div className="max-w-6xl mx-auto px-0 sm:px-6 py-12 sm:py-20 w-full">
         {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Let's Work Together</h2>
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Let's Work Together</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Have a project in mind or looking for a developer? I'd love to hear from you.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto">
           {/* Contact form */}
-          <div className="glass-card p-8">
+          <div className="glass-card p-6 sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label

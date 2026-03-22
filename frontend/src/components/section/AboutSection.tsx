@@ -25,17 +25,17 @@ const skills = [
 
 const AboutSection = () => {
   return (
-    <section className="section-container bg-section-about flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-32">
-      <div className="max-w-6xl mx-auto px-6 py-20">
+    <section className="section-container bg-section-about flex items-center justify-center relative overflow-y-auto custom-scrollbar pt-8 sm:pt-16 md:pt-32 min-h-0">
+      <div className="max-w-6xl mx-auto px-0 sm:px-6 py-12 sm:py-20">
         {/* Section header */}
-        <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">About Me</h2>
+        <div className="mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">About Me</h2>
           <p className="text-muted-foreground">
             My journey and expertise
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           {/* Story */}
           <div className="space-y-6">
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
@@ -59,7 +59,7 @@ const AboutSection = () => {
             </div>
 
             {/* Quick facts */}
-            <div className="grid grid-cols-3 gap-4 pt-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 pt-6">
               <div className="glass-card p-4 text-center">
                 <div className="text-3xl font-bold gradient-text">5+</div>
                 <div className="text-sm text-muted-foreground">Years Experience</div>

@@ -54,11 +54,11 @@ const BlogSection = () => {
   const post = blogPosts[currentPost];
 
   return (
-    <section className="section-container bg-section-blog flex items-center justify-center relative">
-      <div className="max-w-6xl mx-auto px-6 w-full">
+    <section className="section-container bg-section-blog flex items-center justify-center relative min-h-0">
+      <div className="max-w-6xl mx-auto px-0 sm:px-6 w-full">
         {/* Section header */}
-        <div className="mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">Blog</h2>
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Blog</h2>
           <p className="text-muted-foreground">
             Thoughts, tutorials, and insights
           </p>
@@ -98,7 +98,7 @@ const BlogSection = () => {
         {/* Blog post card */}
         <div
           key={post.id}
-          className="glass-card p-8 md:p-12 animate-fade-in-up"
+          className="glass-card p-6 sm:p-8 md:p-12 animate-fade-in-up"
         >
           <div className="max-w-3xl">
             {/* Meta info */}
@@ -114,12 +114,12 @@ const BlogSection = () => {
             </div>
 
             {/* Title */}
-            <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 leading-tight">
               {post.title}
             </h3>
 
             {/* Excerpt */}
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 sm:mb-8">
               {post.excerpt}
             </p>
 

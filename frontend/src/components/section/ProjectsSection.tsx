@@ -65,11 +65,11 @@ const ProjectsSection = () => {
   const project = projects[currentProject];
 
   return (
-    <section className="section-container bg-section-projects flex items-center justify-center relative">
-      <div className="max-w-6xl mx-auto px-6 w-full">
+    <section className="section-container bg-section-projects flex items-center justify-center relative min-h-0">
+      <div className="max-w-6xl mx-auto px-0 sm:px-6 w-full">
         {/* Section header */}
-        <div className="mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">Projects</h2>
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Projects</h2>
           <p className="text-muted-foreground">
             Selected work showcasing my expertise
           </p>
@@ -109,29 +109,29 @@ const ProjectsSection = () => {
         {/* Project card */}
         <div
           key={project.id}
-          className="project-card grid lg:grid-cols-2 gap-8 animate-fade-in-up"
+          className="project-card grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 animate-fade-in-up p-4 sm:p-6 md:p-8"
         >
           {/* Project image/visual */}
           <div
             className={`aspect-video rounded-lg bg-gradient-to-br ${
               gradients[project.image]
-            } flex items-center justify-center relative overflow-hidden`}
+            } flex items-center justify-center relative overflow-hidden order-2 lg:order-1`}
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,hsl(var(--background))_100%)]" />
             <span className="text-6xl font-bold opacity-20">{`0${project.id}`}</span>
           </div>
 
           {/* Project details */}
-          <div className="flex flex-col justify-center space-y-6">
+          <div className="flex flex-col justify-center space-y-4 sm:space-y-6 order-1 lg:order-2">
             <div>
               <span className="text-primary font-mono text-sm">
                 Project {String(currentProject + 1).padStart(2, "0")} /{" "}
                 {String(projects.length).padStart(2, "0")}
               </span>
-              <h3 className="text-3xl font-bold mt-2">{project.title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold mt-2">{project.title}</h3>
             </div>
 
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
               {project.description}
             </p>
 

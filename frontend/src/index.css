@@ -95,14 +95,31 @@
   }
 
   html {
-    scroll-behavior: auto;
-    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Allow vertical scroll on mobile for single-page layout */
+  @media (max-width: 767px) {
+    html, body {
+      overflow: auto;
+      overflow-x: hidden;
+      height: auto;
+      min-height: 100vh;
+    }
+  }
+
+  @media (min-width: 768px) {
+    html {
+      overflow: hidden;
+    }
+    body {
+      overflow: hidden;
+    }
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', system-ui, sans-serif;
-    overflow: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -117,7 +134,17 @@
 
 @layer components {
   .section-container {
-    @apply w-screen h-screen flex-shrink-0 overflow-hidden relative;
+    @apply flex-shrink-0 overflow-hidden relative;
+  }
+  @media (min-width: 768px) {
+    .section-container {
+      @apply w-screen h-screen;
+    }
+  }
+  @media (max-width: 767px) {
+    .section-container {
+      @apply w-full min-h-0;
+    }
   }
 
   .glass-card {

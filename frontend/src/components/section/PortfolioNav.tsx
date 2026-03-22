@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 
 interface PortfolioNavProps {
@@ -19,6 +19,18 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
   const [isDark, setIsDark] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isMobileMenuOpen && mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     // Check initial theme
@@ -52,30 +64,29 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md shadow-md">
+    <nav ref={mobileMenuRef} className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`flex items-center justify-between h-16`}>
           {/* Logo */}
-          <button
-          onClick={() => handleNavClick(0)}
-          className="flex items-center space-x-4"
-          >
+          <div className="flex items-center gap-2 sm:gap-4">
             {isMobile && (
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-md text-foreground hover:bg-accent focus:outline-none"
+                onClick={(e) => { e.stopPropagation(); setIsMobileMenuOpen(!isMobileMenuOpen); }}
+                className="p-2 rounded-md text-foreground hover:bg-accent focus:outline-none"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             )}
-            <img
-              src="/images/logo.png"
-              alt="Haldiya"
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full p-0 m-0"
-            />
-            <span className="hidden sm:inline text-xl font-bold tracking-tight">Haldiya</span>
-          </button>
+            <button onClick={() => handleNavClick(0)} className="flex items-center gap-2 sm:gap-4">
+              <img
+                src="/images/logo.png"
+                alt="Haldiya"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full p-0 m-0"
+              />
+              <span className="hidden sm:inline text-xl font-bold tracking-tight">Haldiya</span>
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
@@ -130,24 +141,24 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - dropdown with nav items and Hire Me */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 md:hidden bg-secondary/95 backdrop-blur-xl rounded-2xl border border-border animate-slide-in-right shadow-lg">
-          <div className={`${isMobile ? 'hidden' : 'hidden md:flex'} items-center space-x-8`}>
+        <div className="absolute top-full left-4 right-4 mt-2 md:hidden bg-secondary/95 backdrop-blur-xl rounded-2xl border border-border shadow-lg z-50 py-4">
+          <nav className="flex flex-col gap-1 px-2">
             {navItems.map((item) => (
               <button
                 key={item.index}
                 onClick={() => handleNavClick(item.index)}
-                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                className={`px-4 py-3 text-left text-sm font-medium rounded-lg transition-colors ${
                   currentSection === item.index
-                    ? 'text-primary font-semibold'
-                    : 'text-foreground/70 hover:text-primary'
+                    ? 'text-primary font-semibold bg-primary/10'
+                    : 'text-foreground hover:bg-secondary'
                 }`}
               >
                 {item.label}
               </button>
             ))}
-          </div>
+          </nav>
         </div>
       )}
     </nav>

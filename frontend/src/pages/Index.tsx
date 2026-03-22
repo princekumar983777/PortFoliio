@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import PortfolioNav from "@/components/section/PortfolioNav";
 import HeroSection from "@/components/section/HeroSection";
@@ -9,37 +10,73 @@ import ChatBot from "@/components/section/ChatBot";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const TOTAL_SECTIONS = 5;
+const SECTION_IDS = ['home', 'projects', 'blog', 'about', 'contact'];
 
 const Index = () => {
   const isMobile = useIsMobile();
+  const [mobileSection, setMobileSection] = useState(0);
   const { currentSection, navigateToSection, containerRef, setSectionRef } = useHorizontalScroll({
     totalSections: TOTAL_SECTIONS,
     transitionDuration: 800,
   });
 
+  // Track visible section on mobile for nav highlighting
+  useEffect(() => {
+    if (!isMobile) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const idx = SECTION_IDS.indexOf(id);
+            if (idx >= 0) setMobileSection(idx);
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+    );
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  const activeSection = isMobile ? mobileSection : currentSection;
+
+  // On mobile: scroll to section by ID; on desktop: use horizontal navigation
+  const handleMobileNavigate = (index: number) => {
+    if (isMobile) {
+      const el = document.getElementById(SECTION_IDS[index]);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      navigateToSection(index);
+    }
+  };
+
   return (
-    <div className={`${isMobile ? 'h-auto' : 'h-screen'} w-screen ${isMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-background`}>
-      <PortfolioNav currentSection={currentSection} onNavigate={navigateToSection} isMobile={isMobile} />
+    <div className={`${isMobile ? 'min-h-screen' : 'h-screen'} w-screen ${isMobile ? '' : 'overflow-hidden'} bg-background`}>
+      <PortfolioNav currentSection={activeSection} onNavigate={isMobile ? handleMobileNavigate : navigateToSection} isMobile={isMobile} />
 
       {isMobile ? (
-        // Mobile view - vertical scroll
-        <div className="pt-16">
-          <section id="home" className="min-h-screen flex items-center justify-center py-20 px-4">
-            <HeroSection onNavigate={navigateToSection} />
+        // Mobile view - single page vertical scroll, all content gathered. Symmetric px-4.
+        <main className="pt-16 w-full max-w-full overflow-x-hidden">
+          <section id="home" className="min-h-[80vh] md:min-h-screen flex items-center justify-center py-12 sm:py-16 px-4 sm:px-6 w-full">
+            <HeroSection onNavigate={handleMobileNavigate} />
           </section>
-          <section id="projects" className="min-h-screen flex items-center justify-center py-20 px-4">
+          <section id="projects" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
             <ProjectsSection />
           </section>
-          <section id="blog" className="min-h-screen flex items-center justify-center py-20 px-4">
+          <section id="blog" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
             <BlogSection />
           </section>
-          <section id="about" className="min-h-screen flex items-center justify-center py-20 px-4">
+          <section id="about" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
             <AboutSection />
           </section>
-          <section id="contact" className="min-h-screen flex items-center justify-center py-20 px-4">
+          <section id="contact" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
             <ContactSection />
           </section>
-        </div>
+        </main>
       ) : (
         // Desktop view - horizontal scroll
         <div

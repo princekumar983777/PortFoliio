@@ -65,9 +65,9 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-float delay-300" />
       </div>
 
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
-        {/* Left: Content */}
-        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
+      <div className="w-full max-w-6xl mx-auto px-0 sm:px-6 grid lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
+        {/* Content - order-2 on mobile (below image), order-1 on desktop */}
+        <div className="order-2 lg:order-1 space-y-6 sm:space-y-8 text-center lg:text-left">
           <div className="space-y-3 sm:space-y-4">
             <p className="text-primary font-mono text-sm sm:text-base tracking-wider animate-fade-in-up">
               Hello, I'm
@@ -102,7 +102,36 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
             </button>
           </div>
 
-          {/* Social Links - Only show on desktop */}
+          {/* Social Links - horizontal on mobile, vertical sidebar on desktop */}
+          <div className="flex lg:hidden justify-center gap-6 animate-fade-in-up delay-500">
+            <a
+              href="https://github.com/princekumar983777/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors p-2"
+              aria-label="GitHub"
+            >
+              <Github size={24} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/prince-kumar-021460290/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors p-2"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={24} />
+            </a>
+            <a
+              href="https://x.com/PrinceK29628508"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors p-2"
+              aria-label="Twitter"
+            >
+              <Twitter size={24} />
+            </a>
+          </div>
           <div className="hidden lg:flex fixed left-8 bottom-8 flex-col gap-4 z-40 animate-fade-in-up delay-500">
             <a
               href="https://github.com/princekumar983777/"
@@ -131,36 +160,34 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           </div>
         </div>
 
-        {/* Right: Profile Image/Illustration */}
-        <div className="hidden lg:flex justify-center items-center animate-fade-in-right delay-300">
+        {/* Profile Image - order-1 on mobile (above content), order-2 on desktop */}
+        <div className="order-1 lg:order-2 flex justify-center items-center animate-fade-in-right delay-300 lg:mt-0">
           <div className="relative">
-            <div className="w-80 h-80 rounded-full bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center animate-pulse-glow">
-              <div className="w-72 h-72 rounded-full bg-card border border-border/50 flex items-center justify-center overflow-hidden">
-                <div className="text-8xl font-bold gradient-text">
-                  <img src="/dp.jpg" alt="H" />
-                </div>
+            <div className="w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center">
+              <div className="w-[85%] h-[85%] rounded-full bg-card border border-border/50 flex items-center justify-center overflow-hidden">
+                <img src="/dp.jpg" alt="Prince Kumar" className="w-full h-full object-cover" />
               </div>
             </div>
-            {/* Floating elements */}
-            <div className="absolute -top-4 -right-4 px-4 py-2 glass-card text-sm font-mono animate-float">
+            {/* Floating elements - hide on small mobile */}
+            <div className="hidden sm:block absolute -top-4 -right-4 px-4 py-2 glass-card text-sm font-mono animate-float">
               AI/ML
             </div>
-            <div className="absolute -bottom-4 -left-4 px-4 py-2 glass-card text-sm font-mono animate-float delay-200">
+            <div className="hidden sm:block absolute -bottom-4 -left-4 px-4 py-2 glass-card text-sm font-mono animate-float delay-200">
               Backend
             </div>
-            <div className="absolute top-1/2 -right-8 px-4 py-2 glass-card text-sm font-mono animate-float delay-400">
+            <div className="hidden lg:block absolute top-1/2 -right-8 px-4 py-2 glass-card text-sm font-mono animate-float delay-400">
               Data Science
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - hides on small mobile when content is tall */}
       <button
         onClick={() => onNavigate(1)}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce"
+        className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce z-10"
       >
-        <ArrowDown size={24} />
+        <ArrowDown size={24} aria-label="Scroll to projects" />
       </button>
     </section>
   );
