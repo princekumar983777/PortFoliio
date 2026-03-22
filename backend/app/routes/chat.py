@@ -1,43 +1,32 @@
 from fastapi import APIRouter, HTTPException
-from datetime import datetime, timedelta
 
 from app.schemas.chat import ChatRequest, ChatResponse
-from app.core.session import get_or_create_session, add_message
-from app.core.config import SESSION_EXPIRY_MINUTES
+from app.core.config import GEMINI_API_KEY_1, SYSTEM_INSTRUSCTION
+from google import genai
+from google.genai import types
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 
-@router.options("", status_code=200)
-def chat_options():
-    """Handle CORS preflight requests for chat endpoint."""
-    return {"message": "OK"}
-
-
 @router.post("", response_model=ChatResponse)
 def chat(req: ChatRequest):
-    # Validate session (middleware-like validation)
-    session = get_or_create_session(req.session_id)
-    if not session:
-        raise HTTPException(status_code=410, detail="Session expired")
+    if not GEMINI_API_KEY_1:
+        raise HTTPException(status_code=500, detail="GEMINI_API_KEY_1 not configured")
 
-    try:
-        # Add user message to history
-        add_message(req.session_id, "user", req.message)
-        
-        # Get response from chat instance, passing conversation history for better RAG
-        reply = session["chat_instance"].get_rag_response(req.message, session["messages"])
-        
-        # Add assistant response to history
-        add_message(req.session_id, "assistant", reply)
-        
-        # Calculate expiry time
-        expires_at = session["last_activity"] + timedelta(minutes=SESSION_EXPIRY_MINUTES)
+    client = genai.Client(api_key=GEMINI_API_KEY_1)
 
-        return ChatResponse(
-            reply=reply,
-            session_expires_at=expires_at.isoformat()
-        )
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUSCTION,
+        ),
+        contents=req.message,
+    )
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return ChatResponse(
+        query=req.message,
+        reply=response.text,
+    )
+
+
+    

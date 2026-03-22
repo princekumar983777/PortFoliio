@@ -7,6 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import chat, health, session, admin, projects, blogs
 
+import dotenv
+
+dotenv.load_dotenv()
+
 app = FastAPI(title=APP_NAME)
 
 app.add_middleware(
@@ -30,11 +34,6 @@ app.include_router(chat.router)
 # /health -> return the health status
 app.include_router(health.router)
 
-
-app.include_router(session.router)
-app.include_router(admin.router)
-app.include_router(projects.router)
-app.include_router(blogs.router)
 
 
 @app.on_event("startup")

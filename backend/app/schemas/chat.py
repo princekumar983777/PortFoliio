@@ -1,13 +1,12 @@
 from pydantic import BaseModel
 
 class ChatRequest(BaseModel):
-    session_id: str
     message: str
 
 
 class ChatResponse(BaseModel):
+    query: str
     reply: str
-    session_expires_at: str
 
 class blogPosts(BaseModel):
     id: int
