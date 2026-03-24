@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Send, Mail, MapPin, Linkedin, Github, Twitter } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SEND_EMAIL_API_URL } from "@/lib/apiBase";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -24,23 +25,63 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      msg: formData.message.trim(),
+    };
 
-    // Open mailto link as fallback
-    const mailtoLink = `mailto:hello@hhaldiya.com?subject=Portfolio Inquiry from ${formData.name}&body=${encodeURIComponent(
-      formData.message
-    )}%0A%0AFrom: ${formData.name}%0AEmail: ${formData.email}`;
-    
-    window.location.href = mailtoLink;
+    try {
+      const response = await fetch(SEND_EMAIL_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    toast({
-      title: "Opening email client...",
-      description: "Your message is ready to send!",
-    });
+      const responseText = await response.text();
 
-    setIsSubmitting(false);
-    setFormData({ name: "", email: "", message: "" });
+      if (!response.ok) {
+        let detail = responseText || `Request failed (${response.status})`;
+        try {
+          const parsed = JSON.parse(responseText) as { detail?: unknown };
+          if (parsed.detail != null) {
+            detail =
+              typeof parsed.detail === "string"
+                ? parsed.detail
+                : JSON.stringify(parsed.detail);
+          }
+        } catch {
+          /* keep detail as responseText */
+        }
+        throw new Error(detail);
+      }
+
+      let successMessage: string | undefined;
+      try {
+        const data = responseText
+          ? (JSON.parse(responseText) as { message?: string })
+          : {};
+        successMessage = data.message;
+      } catch {
+        /* ignore */
+      }
+
+      toast({
+        title: "Message sent",
+        description: successMessage ?? "Thanks — I'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("[ContactSection] send-email:", err);
+      toast({
+        title: "Could not send",
+        description:
+          err instanceof Error ? err.message : "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

@@ -21,3 +21,4 @@ export function apiPath(path: string): string {
 }
 
 export const CHAT_API_URL = apiPath("chat");
+export const SEND_EMAIL_API_URL = apiPath("send-email");
