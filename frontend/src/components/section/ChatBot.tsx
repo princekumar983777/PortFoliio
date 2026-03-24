@@ -3,6 +3,7 @@ import { MessageCircle, X, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { CHAT_API_URL } from "@/lib/apiBase";
 
 interface Message {
   id: number;
@@ -17,8 +18,6 @@ const initialMessages: Message[] = [
     isBot: true,
   },
 ];
-
-const API_URL = "https://portfoliobackend-theta-gold.vercel.app/chat";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,11 +50,11 @@ const ChatBot = () => {
     setLoading(true);
 
     const requestBody = { message: userInput };
-    console.log("[ChatBot] Sending request to:", API_URL);
+    console.log("[ChatBot] Sending request to:", CHAT_API_URL);
     console.log("[ChatBot] Request body:", requestBody);
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(CHAT_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
