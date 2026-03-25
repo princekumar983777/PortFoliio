@@ -1,1 +1,5 @@
 fastapi
+python-dotenv
+pydantic
+pydantic[email]
+google-genai
