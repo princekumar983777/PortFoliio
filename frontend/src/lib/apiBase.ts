@@ -1,4 +1,4 @@
-const DEFAULT_BASE = "https://portfoliobackend-theta-gold.vercel.app";
+const DEFAULT_BASE = "https://backend-blush-seven-fl4rq4brlf.vercel.app";
 
 function normalizeBase(raw: string): string {
   return raw.trim().replace(/\/+$/, "");
