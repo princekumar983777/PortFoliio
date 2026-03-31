@@ -4,22 +4,50 @@ const skills = [
   {
     category: "AI / Machine Learning",
     icon: Brain,
-    items: ["TensorFlow", "PyTorch", "Scikit-learn", "Transformers", "LangChain"],
+    items: [
+      "PyTorch",
+      "TensorFlow",
+      "Scikit-learn",
+      "Transformers (Hugging Face)",
+      "LangChain",
+      "LlamaIndex",
+      "OpenAI API",
+    ],
   },
   {
     category: "Backend Development",
     icon: Code2,
-    items: ["Python", "Go", "Node.js", "FastAPI", "Django"],
+    items: [
+      "Python",
+      "Node.js",
+      "FastAPI",
+      "Django",
+      "tRPC",
+      "GraphQL",
+    ],
   },
   {
-    category: "Data Engineering",
+    category: "MLOps",
     icon: Database,
-    items: ["PostgreSQL", "MongoDB", "Apache Kafka", "Spark", "Redis"],
+    items: [
+      "MLflow",
+      "DVC",
+      "Kubeflow",
+      "Weights & Biases",
+      "BentoML",
+    ],
   },
   {
     category: "DevOps & Cloud",
     icon: Cpu,
-    items: ["Docker", "Kubernetes", "AWS", "GCP", "CI/CD"],
+    items: [
+      "Docker",
+      "Kubernetes",
+      "GitHub Actions",
+      "AWS",
+      "GCP",
+      "Azure",
+    ],
   },
 ];
 

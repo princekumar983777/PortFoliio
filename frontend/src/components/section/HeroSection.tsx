@@ -9,9 +9,8 @@ const TypingEffect = () => {
   const texts = [
     "AI / ML Engineer",
     "Python Developer",
-    "Mechatronics / Automation Engineer",
-    "IoT Engineer",
-    "Data Analyst"
+    "backend developer",
+    "Data Engineer"
   ];
 
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -177,6 +176,9 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
             </div>
             <div className="hidden lg:block absolute top-1/2 -right-8 px-4 py-2 glass-card text-sm font-mono animate-float delay-400">
               Data Science
+            </div>
+            <div className="hidden lg:block absolute -top-4 -left-4 px-4 py-2 glass-card text-sm font-mono animate-float delay-400">
+              MLOps
             </div>
           </div>
         </div>
