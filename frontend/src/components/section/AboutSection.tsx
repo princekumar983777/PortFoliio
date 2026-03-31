@@ -68,36 +68,40 @@ const AboutSection = () => {
           <div className="space-y-6">
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                I started my journey as a <span className="text-foreground font-medium">Mechanical Engineer</span>, 
-                fascinated by how complex systems work together. This foundation taught me 
-                to think analytically and approach problems with a structured mindset.
+                I began my journey as a <span className="text-foreground font-medium">Mechanical Engineer</span>,
+                where I developed strong analytical thinking and a structured approach to solving complex problems.
               </p>
+
               <p>
-                My curiosity led me to explore the intersection of engineering and 
-                software, eventually discovering my passion for <span className="text-primary font-medium">Artificial Intelligence 
-                and Machine Learning</span>. Today, I bridge the gap between traditional 
-                engineering principles and cutting-edge AI technologies.
+                My curiosity led me into
+                <span className="text-primary font-medium"> Artificial Intelligence and Machine Learning</span>,
+                where I focus on building intelligent, data-driven systems using modern tools and frameworks.
               </p>
+
               <p>
-                I specialize in building <span className="text-foreground font-medium">intelligent systems</span> that solve 
-                real-world problems, from predictive analytics platforms to autonomous 
-                systems. My background gives me a unique perspective on building 
-                robust, scalable solutions.
+                I specialize in creating <span className="text-foreground font-medium">end-to-end AI solutions</span> —
+                from model development with PyTorch and Transformers to deploying scalable applications using
+                MLOps practices, APIs, and cloud technologies like Docker, Kubernetes, and AWS/GCP.
+              </p>
+
+              <p>
+                I aim to build <span className="text-primary font-medium">scalable and production-ready systems</span>
+                that solve real-world problems efficiently.
               </p>
             </div>
 
             {/* Quick facts */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 pt-6">
               <div className="glass-card p-4 text-center">
-                <div className="text-3xl font-bold gradient-text">5+</div>
+                <div className="text-3xl font-bold gradient-text">2+</div>
                 <div className="text-sm text-muted-foreground">Years Experience</div>
               </div>
               <div className="glass-card p-4 text-center">
-                <div className="text-3xl font-bold gradient-text">30+</div>
+                <div className="text-3xl font-bold gradient-text">10+</div>
                 <div className="text-sm text-muted-foreground">Projects Completed</div>
               </div>
               <div className="glass-card p-4 text-center">
-                <div className="text-3xl font-bold gradient-text">15+</div>
+                <div className="text-3xl font-bold gradient-text">10+</div>
                 <div className="text-sm text-muted-foreground">Technologies</div>
               </div>
             </div>
