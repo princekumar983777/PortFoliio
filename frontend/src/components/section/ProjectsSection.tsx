@@ -4,13 +4,13 @@ import { ExternalLink, Github, ChevronDown, ChevronUp } from "lucide-react";
 const projects = [
   {
     id: 1,
-    title: "AI-Powered Analytics Platform",
+    title: "AI Gaming Platform",
     description:
-      "A comprehensive analytics dashboard leveraging machine learning to provide predictive insights and real-time data visualization for enterprise clients.",
-    techStack: ["Python", "TensorFlow", "FastAPI", "React", "PostgreSQL"],
-    github: "https://github.com",
-    live: "https://example.com",
-    image: "gradient-1",
+      "An interactive gaming platform where you train your own AI bot through reinforcement learning — it starts knowing nothing, but gets smarter every game you play. Challenge other players head-to-head or pit your trained bot against theirs.",
+    techStack: ["Render","Python", "Flask", "QLearning", "Redis", "JS" , "HTML/CSS"],
+    github: "https://github.com/princekumar983777/Reinforcement-Learning",
+    live: "https://ai-game-platform.onrender.com/",
+    image: "/images/gameverse.png",
   },
   {
     id: 2,
@@ -113,12 +113,22 @@ const ProjectsSection = () => {
         >
           {/* Project image/visual */}
           <div
-            className={`aspect-video rounded-lg bg-gradient-to-br ${
-              gradients[project.image]
+            className={`aspect-video rounded-lg ${
+              project.image.startsWith('/') ? '' : `bg-gradient-to-br ${gradients[project.image]}`
             } flex items-center justify-center relative overflow-hidden order-2 lg:order-1`}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,hsl(var(--background))_100%)]" />
-            <span className="text-6xl font-bold opacity-20">{`0${project.id}`}</span>
+            {project.image.startsWith('/') ? (
+              <img
+                src={project.image}
+                alt={project.title}
+                className="block w-full h-full object-contain object-center rounded-lg"
+              />
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,hsl(var(--background))_100%)]" />
+                <span className="text-6xl font-bold opacity-20">{`0${project.id}`}</span>
+              </>
+            )}
           </div>
 
           {/* Project details */}
