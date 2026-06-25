@@ -85,16 +85,13 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
             Transforming complex problems into elegant solutions. Passionate about 
             building intelligent systems that make a difference.
           </p>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed animate-fade-in-up delay-350">
+            Currently interning at <strong>Tynor</strong>, with recent experience working at <strong>AD Infocom System</strong>.
+          </p>
 
-          <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 animate-fade-in-up delay-400">
+          <div className="flex justify-center lg:justify-start animate-fade-in-up delay-400">
             <button
-              onClick={() => onNavigate(1)}
-              className="btn-primary text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-2.5"
-            >
-              View Projects
-            </button>
-            <button
-              onClick={() => onNavigate(4)}
+              onClick={() => onNavigate(5)}
               className="btn-secondary text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-2.5"
             >
               Contact Me
@@ -187,7 +184,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
       {/* Scroll indicator - hides on small mobile when content is tall */}
       <button
         onClick={() => onNavigate(1)}
-        className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce z-10"
+        className="hidden sm:inline-flex absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce z-10"
       >
         <ArrowDown size={24} aria-label="Scroll to projects" />
       </button>

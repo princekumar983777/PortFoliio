@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import PortfolioNav from "@/components/section/PortfolioNav";
 import HeroSection from "@/components/section/HeroSection";
+import ExperienceSection from "@/components/section/ExperienceSection";
 import ProjectsSection from "@/components/section/ProjectsSection";
 import BlogSection from "@/components/section/BlogSection";
 import AboutSection from "@/components/section/AboutSection";
@@ -9,8 +10,8 @@ import ContactSection from "@/components/section/ContactSection";
 import ChatBot from "@/components/section/ChatBot";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const TOTAL_SECTIONS = 5;
-const SECTION_IDS = ['home', 'projects', 'blog', 'about', 'contact'];
+const TOTAL_SECTIONS = 6;
+const SECTION_IDS = ['home', 'experience', 'projects', 'blog', 'about', 'contact'];
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -64,6 +65,9 @@ const Index = () => {
           <section id="home" className="min-h-[80vh] md:min-h-screen flex items-center justify-center py-12 sm:py-16 px-4 sm:px-6 w-full">
             <HeroSection onNavigate={handleMobileNavigate} />
           </section>
+          <section id="experience" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
+            <ExperienceSection />
+          </section>
           <section id="projects" className="min-h-0 py-12 sm:py-16 px-4 sm:px-6 w-full">
             <ProjectsSection />
           </section>
@@ -93,15 +97,18 @@ const Index = () => {
               <HeroSection onNavigate={navigateToSection} />
             </section>
             <section ref={setSectionRef(1)} className="w-screen h-full flex-shrink-0 overflow-y-auto">
-              <ProjectsSection />
+              <ExperienceSection />
             </section>
             <section ref={setSectionRef(2)} className="w-screen h-full flex-shrink-0 overflow-y-auto">
-              <BlogSection />
+              <ProjectsSection />
             </section>
             <section ref={setSectionRef(3)} className="w-screen h-full flex-shrink-0 overflow-y-auto">
-              <AboutSection />
+              <BlogSection />
             </section>
             <section ref={setSectionRef(4)} className="w-screen h-full flex-shrink-0 overflow-y-auto">
+              <AboutSection />
+            </section>
+            <section ref={setSectionRef(5)} className="w-screen h-full flex-shrink-0 overflow-y-auto">
               <ContactSection />
             </section>
           </div>

@@ -7,12 +7,18 @@ interface PortfolioNavProps {
   isMobile?: boolean;
 }
 
+const INDIA_COORDS = {
+  lat: 20.5937,
+  lng: 78.9629,
+};
+
 const navItems = [
   { label: "Home", index: 0 },
-  { label: "Projects", index: 1 },
-  { label: "Blog", index: 2 },
-  { label: "About", index: 3 },
-  { label: "Hire Me", index: 4 },
+  { label: "Experience", index: 1 },
+  { label: "Projects", index: 2 },
+  { label: "Blog", index: 3 },
+  { label: "About", index: 4 },
+  { label: "Hire Me", index: 5 },
 ];
 
 const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: PortfolioNavProps) => {
@@ -33,10 +39,45 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    // Check initial theme
     const root = document.documentElement;
-    if (!root.classList.contains("light")) {
-      root.classList.remove("light");
+    const savedTheme = localStorage.getItem("theme");
+
+    const setTheme = (dark: boolean) => {
+      if (dark) {
+        root.classList.remove("light");
+      } else {
+        root.classList.add("light");
+      }
+      setIsDark(dark);
+      localStorage.setItem("theme", dark ? "dark" : "light");
+    };
+
+    const loadIndiaSunData = async () => {
+      try {
+        const response = await fetch(
+          `https://api.sunrise-sunset.org/json?lat=${INDIA_COORDS.lat}&lng=${INDIA_COORDS.lng}&formatted=0`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch sunrise data");
+        }
+
+        const data = await response.json();
+        const sunrise = new Date(data.results.sunrise);
+        const sunset = new Date(data.results.sunset);
+        const now = new Date();
+
+        const isDay = now >= sunrise && now <= sunset;
+        setTheme(!isDay);
+      } catch (error) {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(prefersDark);
+      }
+    };
+
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme === "dark");
+    } else {
+      loadIndiaSunData();
     }
   }, []);
 
@@ -90,7 +131,7 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            {navItems.slice(0, 4).map((item) => (
+            {navItems.slice(0, 5).map((item) => (
               <button
                 key={item.label}
                 onClick={() => handleNavClick(item.index)}
