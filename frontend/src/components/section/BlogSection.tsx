@@ -14,6 +14,8 @@ const blogPosts = [
       "This article explores the end-to-end architecture of ML pipelines, from data ingestion to model deployment.",
       "It covers orchestration, monitoring, and best practices for keeping pipelines reliable at scale.",
       "You can also learn how to balance automation with manual checks to avoid costly production issues.",
+      "We walk through real-world examples of batch and streaming data flows, and how to design them for durability.",
+      "There is also a section on validation, drift detection, and automatic rollback strategies.",
     ],
   },
   {
@@ -28,6 +30,8 @@ const blogPosts = [
       "I describe the cross-disciplinary skills that helped me transition from mechanical engineering into AI product work.",
       "The article highlights how modeling, collaboration, and rapid prototyping carry over between hardware and software.",
       "You'll find practical advice for anyone looking to pivot into tech while leveraging their engineering background.",
+      "It also includes a hands-on example of using CAD-style thinking to improve software architecture choices.",
+      "The post closes with practical steps for building a portfolio that blends hardware and software work.",
     ],
   },
   {
@@ -42,6 +46,8 @@ const blogPosts = [
       "The article breaks down self-attention, positional embeddings, and the transformer encoder-decoder flow.",
       "It uses simple diagrams and examples to make the core concepts easy to understand.",
       "There are also notes on how transformers differ from older sequence models and why they scale so well.",
+      "A short code walkthrough shows how attention scores are computed and normalized.",
+      "The article finishes with practical advice for selecting transformer variants for different NLP tasks.",
     ],
   },
   {
@@ -56,6 +62,8 @@ const blogPosts = [
       "This post covers idiomatic Go patterns for fast HTTP APIs and efficient goroutine management.",
       "It also explains when to use channels, worker pools, and caching to reduce latency.",
       "You’ll get concrete examples for tuning service performance without sacrificing code clarity.",
+      "There is a practical guide to profiling Go applications and fixing memory bottlenecks.",
+      "The article also describes how to design microservices that remain easy to maintain as they scale.",
     ],
   },
 ];
@@ -79,8 +87,8 @@ const BlogSection = () => {
   }, [currentPost]);
 
   return (
-    <section className="section-container bg-section-blog flex items-center justify-center relative min-h-0">
-      <div className="max-w-6xl mx-auto px-0 sm:px-6 w-full">
+    <section className="section-container bg-section-blog relative min-h-0 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-0 sm:px-6 py-10 w-full h-full overflow-y-auto custom-scrollbar text-left">
         {/* Section header */}
         <div className="mb-6 sm:mb-8">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Blog</h2>
@@ -158,25 +166,32 @@ const BlogSection = () => {
               {post.excerpt}
             </p>
 
-            {/* Toggle article details */}
-            <button
-              onClick={() => setIsExpanded((prev) => !prev)}
-              className="inline-flex items-center gap-2 text-primary hover:gap-4 transition-all duration-300 font-medium"
-            >
-              {isExpanded ? "Return to card view" : "Read Article"}
-              <ArrowRight size={18} />
-            </button>
-
             {isExpanded && (
               <div className="mt-8 border-t border-border pt-8 text-left">
-                <div className="space-y-4">
+                <div className="space-y-4 pr-2">
                   {post.details.map((detail, idx) => (
                     <p key={idx} className="text-muted-foreground leading-relaxed">
                       {detail}
                     </p>
                   ))}
                 </div>
+                <button
+                  onClick={() => setIsExpanded(false)}
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-2 text-sm font-medium hover:bg-primary/20 transition-colors"
+                >
+                  Return to card view
+                </button>
               </div>
+            )}
+
+            {!isExpanded && (
+              <button
+                onClick={() => setIsExpanded(true)}
+                className="inline-flex items-center gap-2 text-primary hover:gap-4 transition-all duration-300 font-medium"
+              >
+                Read Article
+                <ArrowRight size={18} />
+              </button>
             )}
           </div>
 
