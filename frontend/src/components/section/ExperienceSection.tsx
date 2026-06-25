@@ -3,12 +3,12 @@ const experienceItems = [
     company: "Tynor",
     role: "Intern",
     period: "2024 - Present",
-    description: "Working on modern web interfaces, component design, and performance improvements.",
+    description: "Worked in Quality and Product Design, replicating fabricated parts and assemblies into 3D modeling and drafting while building models first to ensure proper fabricability and functioning.",
     highlights: [
-      "Built reusable UI components and polished user flows.",
-      "Collaborated with a product team to ship faster page interactions.",
+      "Translated fabricated parts and assemblies into 3D models and technical drafts.",
+      "Built models first and fabricated them for reliable performance and proper functioning.",
     ],
-    tags: ["React", "TypeScript", "UI", "Teamwork"],
+    tags: ["Quality", "Product Design", "3D Modeling", "Drafting"],
   },
   {
     company: "AD Infocom System",
@@ -43,7 +43,7 @@ const ExperienceSection = () => {
           {experienceItems.map((item) => (
             <article
               key={item.company}
-              className="w-full max-w-xl h-full flex flex-col justify-between bg-background border border-border/70 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="w-full max-w-xl h-full flex flex-col justify-between bg-background border border-border/70 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-left"
             >
               <div className="flex items-center justify-between gap-4 mb-4">
                 <div>

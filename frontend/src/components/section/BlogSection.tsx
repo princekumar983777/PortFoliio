@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 
 const blogPosts = [
@@ -10,6 +10,11 @@ const blogPosts = [
     date: "Dec 20, 2024",
     readTime: "8 min read",
     category: "Machine Learning",
+    details: [
+      "This article explores the end-to-end architecture of ML pipelines, from data ingestion to model deployment.",
+      "It covers orchestration, monitoring, and best practices for keeping pipelines reliable at scale.",
+      "You can also learn how to balance automation with manual checks to avoid costly production issues.",
+    ],
   },
   {
     id: 2,
@@ -19,6 +24,11 @@ const blogPosts = [
     date: "Dec 15, 2024",
     readTime: "6 min read",
     category: "Career",
+    details: [
+      "I describe the cross-disciplinary skills that helped me transition from mechanical engineering into AI product work.",
+      "The article highlights how modeling, collaboration, and rapid prototyping carry over between hardware and software.",
+      "You'll find practical advice for anyone looking to pivot into tech while leveraging their engineering background.",
+    ],
   },
   {
     id: 3,
@@ -28,6 +38,11 @@ const blogPosts = [
     date: "Dec 10, 2024",
     readTime: "12 min read",
     category: "Deep Learning",
+    details: [
+      "The article breaks down self-attention, positional embeddings, and the transformer encoder-decoder flow.",
+      "It uses simple diagrams and examples to make the core concepts easy to understand.",
+      "There are also notes on how transformers differ from older sequence models and why they scale so well.",
+    ],
   },
   {
     id: 4,
@@ -37,11 +52,17 @@ const blogPosts = [
     date: "Dec 5, 2024",
     readTime: "10 min read",
     category: "Backend",
+    details: [
+      "This post covers idiomatic Go patterns for fast HTTP APIs and efficient goroutine management.",
+      "It also explains when to use channels, worker pools, and caching to reduce latency.",
+      "You’ll get concrete examples for tuning service performance without sacrificing code clarity.",
+    ],
   },
 ];
 
 const BlogSection = () => {
   const [currentPost, setCurrentPost] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const nextPost = () => {
     setCurrentPost((prev) => (prev + 1) % blogPosts.length);
@@ -52,6 +73,10 @@ const BlogSection = () => {
   };
 
   const post = blogPosts[currentPost];
+
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [currentPost]);
 
   return (
     <section className="section-container bg-section-blog flex items-center justify-center relative min-h-0">
@@ -82,13 +107,23 @@ const BlogSection = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={prevPost}
-              className="p-2 rounded-lg border border-border hover:bg-secondary transition-colors"
+              disabled={isExpanded}
+              className={`p-2 rounded-lg border border-border transition-colors ${
+                isExpanded
+                  ? "cursor-not-allowed text-muted-foreground/50 border-muted-foreground/30"
+                  : "hover:bg-secondary"
+              }`}
             >
               <ChevronUp size={20} />
             </button>
             <button
               onClick={nextPost}
-              className="p-2 rounded-lg border border-border hover:bg-secondary transition-colors"
+              disabled={isExpanded}
+              className={`p-2 rounded-lg border border-border transition-colors ${
+                isExpanded
+                  ? "cursor-not-allowed text-muted-foreground/50 border-muted-foreground/30"
+                  : "hover:bg-secondary"
+              }`}
             >
               <ChevronDown size={20} />
             </button>
@@ -123,14 +158,26 @@ const BlogSection = () => {
               {post.excerpt}
             </p>
 
-            {/* Read more link */}
-            <a
-              href="#"
+            {/* Toggle article details */}
+            <button
+              onClick={() => setIsExpanded((prev) => !prev)}
               className="inline-flex items-center gap-2 text-primary hover:gap-4 transition-all duration-300 font-medium"
             >
-              Read Article
+              {isExpanded ? "Return to card view" : "Read Article"}
               <ArrowRight size={18} />
-            </a>
+            </button>
+
+            {isExpanded && (
+              <div className="mt-8 border-t border-border pt-8 text-left">
+                <div className="space-y-4">
+                  {post.details.map((detail, idx) => (
+                    <p key={idx} className="text-muted-foreground leading-relaxed">
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Article number */}
