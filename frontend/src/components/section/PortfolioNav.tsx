@@ -157,7 +157,7 @@ const PortfolioNav = ({ currentSection, onNavigate, isMobile = false }: Portfoli
             </button>
 
             <button
-              onClick={() => handleNavClick(4)}
+              onClick={() => handleNavClick(5)}
               className="btn-primary text-sm px-4 py-2 rounded-full"
             >
               HIRE ME
