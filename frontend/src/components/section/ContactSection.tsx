@@ -231,10 +231,10 @@ const ContactSection = () => {
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-2">
                 <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                <span className="font-medium">Available for hire</span>
+                <span className="font-medium">Currently working on TYNOR orthotics</span>
               </div>
               <p className="text-muted-foreground text-sm">
-                Currently accepting new projects and opportunities. Let's build something amazing together.
+                Available to take on new work after a few months. Let's build something amazing together.
               </p>
             </div>
           </div>
